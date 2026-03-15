@@ -20,7 +20,7 @@ Furthermore, since the task specified features such as **brand** and **category 
 
 **Tradeoffs**: The fastest possible access (+ filtering) to data at the expense of write performance (slower inserts/deletes/updates due to index maintance) and slightly increased storage space (denormalized data + indexes).
 
-### Developmnet process
+### Development process
 
 - **Retrieving data from OpenFoodFacts**: The task is to populate the **`products`** table with data from the public API. I had to write a short Python script to load the CORRECT data into the table. (it was French, not full etc)
 

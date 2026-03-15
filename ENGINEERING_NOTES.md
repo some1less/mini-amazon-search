@@ -22,7 +22,9 @@ Furthermore, since the task specified features such as **brand** and **category 
 
 ### Development process
 
-- **Retrieving data from OpenFoodFacts**: The task is to populate the **`products`** table with data from the public API. I had to write a short Python script to load the CORRECT data into the table. (initially it was in French, not full etc -> FIXED)
+- **Retrieving data from OpenFoodFacts**: I used custom, hand-written Python script to fetch and clean data from the public API.(initially it was localized in French, incomplete data etc -> it was all fixed)
+- **Selection of Object-Relational Mapper (ORM)**: I chose Dapper.
+> Initially, I considered three options for a .NET-based backend: **Entity Framework** (EF), **ADO.NET**, and **Dapper**. Although EF is a powerful tool, it was overkill for this specific project. On the other hand, ADO.NET would have required writing a significant amount of boilerplate code. Ultimately, Dapper offered the best balance between performance and development speed.
 
 
 

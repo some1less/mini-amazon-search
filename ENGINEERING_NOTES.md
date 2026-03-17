@@ -25,6 +25,7 @@ Furthermore, since the task specified features such as **brand** and **category 
 - **Retrieving data from OpenFoodFacts**: I used custom, hand-written Python script to fetch and clean data from the public API.(initially it was localized in French, incomplete data etc -> it was all fixed)
 - **Selection of Object-Relational Mapper (ORM)**: I chose Dapper.
 > Initially, I considered three options for a .NET-based backend: **Entity Framework** (EF), **ADO.NET**, and **Dapper**. Although EF is a powerful tool, it was overkill for this specific project. On the other hand, ADO.NET would have required writing a significant amount of boilerplate code. Ultimately, Dapper offered the best balance between performance and development speed.
+- **Search Optimization**: During testing, I identified that standard `ILIKE %word%` queries caused a Full Table Scan, which is inefficient for large datasets. To fix this, I implemented the `pg_trgm` extension with the GIN index, enabling fast partial match searches at the database level (thanks to this [resource](https://medium.com/@daniel.tooke/performant-text-searching-and-indexes-in-psql-trigrams-like-and-full-text-search-784c000efaa6#:~:text=For%20fuzzy%20matching%20and%20more%20complex%20queries:%20trigram%20matching%20with%20a%20gin%20index))
 
 
 

@@ -23,6 +23,8 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
     const [localPage, setLocalPage] = useState(page.toString());
     const [localPageSize, setLocalPageSize] = useState(pageSize.toString());
 
+    const isSearchDisabled = inputValue.trim().length === 0 && initialQuery.trim().length === 0;
+
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -33,11 +35,9 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
-
             if (filterWrapperRef.current && !filterWrapperRef.current.contains(target)) {
                 setShowFilterDropdown(false);
             }
-
             if (settingsWrapperRef.current && !settingsWrapperRef.current.contains(target)) {
                 setShowSettingsDropdown(false);
             }
@@ -59,6 +59,8 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        if (isSearchDisabled) return;
+
         onSearch(inputValue);
         setShowFilterDropdown(false);
         setShowSettingsDropdown(false);
@@ -67,7 +69,9 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            handleSubmit(e as unknown as FormEvent);
+            if (!isSearchDisabled) {
+                handleSubmit(e as unknown as FormEvent);
+            }
         }
     };
 
@@ -115,18 +119,15 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
                     <div className="filter-dropdown-wrapper" ref={filterWrapperRef}>
                         <button type="button" className="clean-btn" onClick={toggleFilterDropdown}>
                             Filters
-                            <svg
-                                className={`dropdown-icon ${showFilterDropdown ? 'open' : ''}`}
-                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                            >
+                            <svg className={`dropdown-icon ${showFilterDropdown ? 'open' : ''}`} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </button>
 
                         <div className={`filter-dropdown ${showFilterDropdown ? 'show' : ''}`}>
-                            <div className="filter-options-horizontal">
-                                <button type="button" className="filter-option-btn">Brands</button>
-                                <button type="button" className="filter-option-btn">Categories</button>
+                            <div className="filter-options-vertical">
+                                <button type="button" className="filter-option-clean-btn">Brands</button>
+                                <button type="button" className="filter-option-clean-btn">Categories</button>
                             </div>
                         </div>
                     </div>
@@ -135,10 +136,7 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
                         <div className="settings-dropdown-wrapper" ref={settingsWrapperRef}>
                             <button type="button" className="clean-btn" onClick={toggleSettingsDropdown}>
                                 Settings
-                                <svg
-                                    className={`dropdown-icon ${showSettingsDropdown ? 'open' : ''}`}
-                                    width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                                >
+                                <svg className={`dropdown-icon ${showSettingsDropdown ? 'open' : ''}`} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </button>
@@ -174,7 +172,11 @@ export const Toolbar = ({ initialQuery, onSearch, page, onPageChange, pageSize, 
                             </div>
                         </div>
 
-                        <button type="submit" className="search-button">
+                        <button
+                            type="submit"
+                            className={`search-button ${isSearchDisabled ? 'disabled' : ''}`}
+                            disabled={isSearchDisabled}
+                        >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="12" y1="19" x2="12" y2="5"></line>
                                 <polyline points="5 12 12 5 19 12"></polyline>

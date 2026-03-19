@@ -10,4 +10,7 @@ export interface SearchProductRequest {
     typedWord?: string;
     page: number;
     pageSize: number;
+
+    brands: string[] | undefined;
+    categories: string[] | undefined;
 }

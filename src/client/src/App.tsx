@@ -25,7 +25,9 @@ function App() {
                 marginTop: '60px',
                 fontWeight: 550
             }}>
-                It's like Amazon search, but waaaaay simpler
+                It's like Amazon search, but w
+                <span style={{ color: '#2ed9ff' }}>aaaaa</span>
+                y simpler
             </h1>
 
             <Toolbar

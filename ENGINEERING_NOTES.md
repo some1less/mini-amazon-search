@@ -1,4 +1,4 @@
-## Mini Amazon Search
+## Amazon-like Faceted Search
 
 ### Architecture decision
 
